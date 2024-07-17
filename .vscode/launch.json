@@ -1,0 +1,30 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Electron Main",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
+            "args": [
+                "${workspaceRoot}/public/electron.js",
+                "--remote-debugging-port=9223"
+            ],
+            "protocol": "inspector"
+        },
+        {
+            "name": "Electron Renderer",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9223,
+            "webRoot": "${workspaceFolder}",
+            "timeout": 30000
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Electron: All",
+            "configurations": ["Electron Main", "Electron Renderer"]
+        }
+    ]
+}
