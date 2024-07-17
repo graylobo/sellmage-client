@@ -2,6 +2,7 @@ import * as Sentry from "@sentry/react";
 import { Button } from "antd";
 import { createStyles } from "antd-style";
 import React from "react";
+import { useRouteError } from "react-router-dom";
 
 const useStyles = createStyles(() => ({
   globalErrorFallbackWrapper: {
@@ -32,13 +33,13 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-const GlobalErrorFallBack = ({ error, resetErrorBoundary }) => {
-  console.error("GlobalErrorFallBack: ", error);
+const PrivateRouterErrorFallBack = () => {
+  const error = useRouteError();
+  console.error("PrivateRouterErrorFallBack: ", error);
 
   const { styles } = useStyles();
 
   const handleReloadPage = () => {
-    resetErrorBoundary();
     window.location.reload();
   };
 
@@ -60,7 +61,7 @@ const GlobalErrorFallBack = ({ error, resetErrorBoundary }) => {
         It is a temporary phenomenon, so please try again later.
       </span>
       <span className={styles.errorCode}>
-        {`Error Code: ${error.message || "Unknown"}`}
+        {`Error Code: ${error || "Unknown"}`}
       </span>
       <div className={styles.buttonGroup}>
         <Button type="default" htmlType="button" onClick={handleReloadPage}>
@@ -74,4 +75,4 @@ const GlobalErrorFallBack = ({ error, resetErrorBoundary }) => {
   );
 };
 
-export default GlobalErrorFallBack;
+export default PrivateRouterErrorFallBack;

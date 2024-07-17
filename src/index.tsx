@@ -10,7 +10,6 @@ import {
   createRoutesFromChildren,
   matchRoutes,
 } from "react-router-dom";
-console.log("process.env.REACT_APP_SENTRY_DSN", process.env.REACT_APP_SENTRY_DSN);
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
   integrations: [
