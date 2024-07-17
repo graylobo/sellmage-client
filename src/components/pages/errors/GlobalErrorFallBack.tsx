@@ -1,35 +1,8 @@
+import React from "react";
 import { Button } from "antd";
 import { createStyles } from "antd-style";
-
-function GlobalErrorFallBack({ error }: any) {
-  console.log(error);
-
-  const handleReloadPage = () => {
-    window.location.reload();
-  };
-
-  const { styles } = useStyles();
-
-  return (
-    <section className={styles.globalErrorFallbackWrapper}>
-      <h1 className={styles.errorIcon}> ⛔ </h1>
-      <h2 className={styles.errorTitle}>
-        It failed to perform the requested operation.
-      </h2>
-      <span className={styles.errorText}>
-        It is a temporary phenomenon, so please try again later.
-      </span>
-      <span
-        className={styles.errorCode}
-      >{`Error Code: ${error?.response.status}`}</span>
-      <Button type="default" htmlType="button" onClick={handleReloadPage}>
-        Reload Page
-      </Button>
-    </section>
-  );
-}
-
-export default GlobalErrorFallBack;
+import { FallbackProps } from "react-error-boundary";
+import * as Sentry from "@sentry/react";
 
 const useStyles = createStyles(() => ({
   globalErrorFallbackWrapper: {
@@ -55,3 +28,38 @@ const useStyles = createStyles(() => ({
     padding: "10px 0",
   },
 }));
+
+const GlobalErrorFallBack: any = ({ error, resetErrorBoundary }) => {
+  console.error(error);
+
+  const { styles } = useStyles();
+
+  const handleReloadPage = () => {
+    resetErrorBoundary();
+    window.location.reload();
+  };
+
+  React.useEffect(() => {
+    Sentry.captureException(error);
+  }, [error]);
+
+  return (
+    <section className={styles.globalErrorFallbackWrapper}>
+      <h1 className={styles.errorIcon}> ⛔ </h1>
+      <h2 className={styles.errorTitle}>
+        It failed to perform the requested operation.
+      </h2>
+      <span className={styles.errorText}>
+        It is a temporary phenomenon, so please try again later.
+      </span>
+      <span className={styles.errorCode}>
+        {`Error Code: ${error?.response?.status || "Unknown"}`}
+      </span>
+      <Button type="default" htmlType="button" onClick={handleReloadPage}>
+        Reload Page
+      </Button>
+    </section>
+  );
+};
+
+export default GlobalErrorFallBack;

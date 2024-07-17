@@ -5,7 +5,7 @@ import { useState } from "react";
 function ProductFetch() {
   const [data, setData] = useState<any[]>([]);
   const [fileName, setFileName] = useState<string>("");
-
+  throw new Error("This is a test error!!!");
   // 데이터 가져오기
   const fetchData = async () => {
     try {

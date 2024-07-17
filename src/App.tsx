@@ -1,11 +1,11 @@
-import { Suspense } from "react";
-import "./App.css";
-import Router from "./routes/Router";
+import * as Sentry from "@sentry/react";
 import { Spin } from "antd";
 import { createStyles } from "antd-style";
-import { ErrorBoundary, FallbackProps } from "react-error-boundary";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import "./App.css";
 import GlobalErrorFallBack from "./components/pages/errors/GlobalErrorFallBack";
-import * as Sentry from "@sentry/react";
+import Router from "./routes/Router";
 
 const useStyles = createStyles(() => ({
   customSpinner: {

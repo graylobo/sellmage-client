@@ -8,7 +8,7 @@ import log from "electron-log";
 import { init } from "@sentry/electron";
 
 init({
-  dsn: process.env.SENTRY_DSN,
+  dsn: process.env.REACT_APP_SENTRY_DSN,
 });
 // 로그 파일 경로 명시적 설정
 // log.transports.file.resolvePath = () =>
